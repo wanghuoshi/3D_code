@@ -7,6 +7,9 @@ INCLUDE_DIRECTORIES(${VTK_USE_FILE})
 ADD_EXECUTABLE(2.1_RenderCylinder 2.1_RenderCylinder.cpp)
 TARGET_LINK_LIBRARIES(2.1_RenderCylinder ${VTK_LIBRARIES})
 
+ADD_EXECUTABLE(2.2_RenderArray 2.2_RenderArray.cpp)
+TARGET_LINK_LIBRARIES(2.2_RenderArray ${VTK_LIBRARIES})
+
 # ADD_EXECUTABLE(2.2_RenderCylinder-Lights 2.2_RenderCylinder-Lights.cpp)
 # TARGET_LINK_LIBRARIES(2.2_RenderCylinder-Lights ${VTK_LIBRARIES})
 
