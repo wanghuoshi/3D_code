@@ -10,44 +10,48 @@
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkRenderer.h"
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int main()
 {
     int i;
 
-    //åˆ›å»ºä¸€ä¸ªç”¨äºå­˜æ”¾ç‚¹é›†çš„VTKæµ®ç‚¹å‹æ•°ç»„
+    //´´½¨Ò»¸öÓÃÓÚ´æ·Åµã¼¯µÄVTK¸¡µãĞÍÊı×é
     vtkFloatArray *pcoords = vtkFloatArray::New();
 
-    //æŒ‡å®šè¯¥æ•°ç»„ç”¨äºå­˜æ”¾ä¸‰ç»´çš„ç‚¹
+    //Ö¸¶¨¸ÃÊı×éÓÃÓÚ´æ·ÅÈıÎ¬µÄµã
     pcoords->SetNumberOfComponents(3);
-    //è®¾ç½®æ•°ç»„å…ƒç»„ä¸ªæ•°
+    //ÉèÖÃÊı×éÔª×é¸öÊı
     pcoords->SetNumberOfTuples(4);
 
     float pts[4][3] = {{0.0,0.0,0.0},{0.0,1.0,0.0},
                        {1.0,0.0,0.0},{1.0,1.0,0.0}};
-    //ç”¨ä¸Šè¿°äºŒç»´æ•°ç»„åˆå§‹åŒ–ç‚¹é›†æ•°ç»„
+    //ÓÃÉÏÊö¶şÎ¬Êı×é³õÊ¼»¯µã¼¯Êı×é
     for(i = 0; i < 4; i++)
     {
         pcoords->SetTuple(i,pts[i]);
     }
 
-    //åˆ›å»ºç‚¹é›†å¹¶åˆå§‹åŒ–
+    //´´½¨µã¼¯²¢³õÊ¼»¯
     vtkPoints *points = vtkPoints::New();
     points->SetData(pcoords);
 
-    //åˆ›å»ºæ„æˆå¤šè¾¹å½¢æ•°æ®é›†çš„â€œç§¯æœ¨â€
+    //´´½¨¹¹³É¶à±ßĞÎÊı¾İ¼¯µÄ¡°»ıÄ¾¡±
     vtkCellArray *strips = vtkCellArray::New();
-    strips->InsertNextCell(4);                   //è®¾ç½®æ•°ç»„å­˜æ”¾ç‚¹çš„ä¸ªæ•°
-    //è®¾ç½®ç‚¹ä¸ç‚¹ä¹‹é—´çš„è¿æ¥å…³ç³»
+    strips->InsertNextCell(4);                   //ÉèÖÃÊı×é´æ·ÅµãµÄ¸öÊı
+    //ÉèÖÃµãÓëµãÖ®¼äµÄÁ¬½Ó¹ØÏµ
     strips->InsertCellPoint(0);
     strips->InsertCellPoint(1);
     strips->InsertCellPoint(2);
     strips->InsertCellPoint(3);
     
-    //è¯¥æ•°ç»„ç”¨äºåé¢çš„æ ‡é‡ä¿¡æ¯
+    //¸ÃÊı×éÓÃÓÚºóÃæµÄ±êÁ¿ĞÅÏ¢
     vtkIntArray *temperature = vtkIntArray::New();
-    temperature->SetName("Temperature");          //è®¾ç½®æ•°ç»„å
-    //åœ¨æ•°ç»„çš„åé¢æ·»åŠ æ•°æ®
+    temperature->SetName("Temperature");          //ÉèÖÃÊı×éÃû
+    //ÔÚÊı×éµÄºóÃæÌí¼ÓÊı¾İ
     temperature->InsertNextValue(10);
     temperature->InsertNextValue(20);
     temperature->InsertNextValue(30);
@@ -60,18 +64,18 @@ int main()
     vorticity->InsertNextValue(5.3);
     vorticity->InsertNextValue(3.4);
 
-    //åˆ›å»ºå¤šè¾¹å½¢æ•°æ®é›†ï¼Œå¹¶å°†â€œç§¯æœ¨â€ç»„æˆå¤šè¾¹å½¢æ•°æ®
+    //´´½¨¶à±ßĞÎÊı¾İ¼¯£¬²¢½«¡°»ıÄ¾¡±×é³É¶à±ßĞÎÊı¾İ
     vtkPolyData *polydata = vtkPolyData::New();
     polydata->SetPoints(points);
     polydata->SetStrips(strips);
-    //è®¾ç½®å¤šè¾¹å½¢æ•°æ®é›†çš„æ ‡é‡å€¼
+    //ÉèÖÃ¶à±ßĞÎÊı¾İ¼¯µÄ±êÁ¿Öµ
     polydata->GetPointData()->SetScalars(temperature);
     polydata->GetPointData()->AddArray(vorticity);
 
-    //è®¾ç½®æ˜ å°„å™¨å’Œæ ‡é‡èŒƒå›´
+    //ÉèÖÃÓ³ÉäÆ÷ºÍ±êÁ¿·¶Î§
     vtkPolyDataMapper *mapper =vtkPolyDataMapper::New();
     mapper->SetInputData(polydata);
-    mapper->SetScalarRange(0,40);                 //è®¾ç½®æ˜ å°„èŒƒå›´
+    mapper->SetScalarRange(0,40);                 //ÉèÖÃÓ³Éä·¶Î§
 
     vtkActor *actor = vtkActor::New();
     actor->SetMapper(mapper);
@@ -87,7 +91,7 @@ int main()
     iren->Initialize();
     iren->Start();
 
-    //é‡Šæ”¾å¯¹è±¡å†…å­˜
+    //ÊÍ·Å¶ÔÏóÄÚ´æ
     pcoords->Delete();
     points->Delete();
     strips->Delete();
