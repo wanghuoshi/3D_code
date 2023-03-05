@@ -10,23 +10,11 @@ TARGET_LINK_LIBRARIES(2.1_Cylinder ${VTK_LIBRARIES})
 ADD_EXECUTABLE(2.2_Array 2.2_Array.cpp)
 TARGET_LINK_LIBRARIES(2.2_Array ${VTK_LIBRARIES})
 
-# ADD_EXECUTABLE(2.2_RenderCylinder-Lights 2.2_RenderCylinder-Lights.cpp)
-# TARGET_LINK_LIBRARIES(2.2_RenderCylinder-Lights ${VTK_LIBRARIES})
+ADD_EXECUTABLE(2.3_GraphItem 2.3_GraphItem.cpp)
+TARGET_LINK_LIBRARIES(2.3_GraphItem ${VTK_LIBRARIES})
 
-# ADD_EXECUTABLE(2.2_TextureExample 2.2_TextureExample.cpp)
-# TARGET_LINK_LIBRARIES(2.2_TextureExample ${VTK_LIBRARIES})
-
-# ADD_EXECUTABLE(2.3_Viewport 2.3_Viewport.cpp)
-# TARGET_LINK_LIBRARIES(2.3_Viewport ${VTK_LIBRARIES})
-
-# ADD_EXECUTABLE(2.4_vtkPipelineDemo 2.4_vtkPipelineDemo.cpp)
-# TARGET_LINK_LIBRARIES(2.4_vtkPipelineDemo ${VTK_LIBRARIES})
-
-# ADD_EXECUTABLE(2.4_vtkPipelineExecute 2.4_vtkPipelineExecute.cpp)
-# TARGET_LINK_LIBRARIES(2.4_vtkPipelineExecute ${VTK_LIBRARIES})
-
-# ADD_EXECUTABLE(2.5_ReferenceCounting 2.5_ReferenceCounting.cpp)
-# TARGET_LINK_LIBRARIES(2.5_ReferenceCounting ${VTK_LIBRARIES})
+ADD_EXECUTABLE(2.4_Cube 2.4_Cube.cpp)
+TARGET_LINK_LIBRARIES(2.4_Cube ${VTK_LIBRARIES})
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Construct a list of paths containing runtime directories for project applications on Windows.

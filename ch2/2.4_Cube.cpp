@@ -10,6 +10,10 @@
 #include "vtkRenderWindowInteractor.h"
 #include "vtkRenderer.h"
 #include "vtkSmartPointer.h"
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int main()
 {
@@ -25,8 +29,8 @@ int main()
     vtkSmartPointer<vtkCellArray> polys = vtkSmartPointer<vtkCellArray>::New();
     vtkSmartPointer<vtkFloatArray> scalars = vtkSmartPointer<vtkFloatArray>::New();
     for(i=0;i<8;i++) points->InsertPoint(i,x[i]);        //立方体的八个点
-    for(i=0;i<8;i++) polys->InsertNextCell(4,pts[i]);    //立方体的六个面
-    for(i=0;i<8;i++) scalars->InsertTuple(i,i);          //定义该多边形的标量
+    for(i=0;i<6;i++) polys->InsertNextCell(4,pts[i]);    //立方体的六个面
+    for(i=0;i<8;i++) scalars->InsertTuple1(i,i);          //定义该多边形的标量
 
     //组建积木
     cube->SetPoints(points);
@@ -35,12 +39,12 @@ int main()
 
     vtkSmartPointer<vtkPolyDataMapper> cubeMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     cubeMapper->SetInputData(cube);
-    cubeMapper->SetScalarRange(0,7);                     //指定标量的范围
+    cubeMapper->SetScalarRange(0,7);                                                //指定标量的范围
     
     vtkSmartPointer<vtkActor> cubeActor = vtkSmartPointer<vtkActor>::New();
     cubeActor->SetMapper(cubeMapper);
 
-    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();    //指定照相机
+    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();          //指定照相机
     camera->SetPosition(1,1,1);
     camera->SetFocalPoint(0,0,0);
 
@@ -50,5 +54,14 @@ int main()
     renderer->ResetCamera();
     renderer->SetBackground(1,1,1);
 
-    vtkSmartPointer<vtkRenderWindow> renWin = vtkSmartPointer
+    vtkSmartPointer<vtkRenderWindow> renWin = vtkSmartPointer<vtkRenderWindow>::New();    //指定渲染窗口
+    renWin->AddRenderer(renderer);
+    renWin->SetSize(300,300);
+
+    vtkSmartPointer<vtkRenderWindowInteractor> iren = vtkSmartPointer<vtkRenderWindowInteractor>::New();    //设置交互窗口
+    iren->SetRenderWindow(renWin);
+    iren->Initialize();    //启动交互
+    iren->Start();
+
+    return 0;
 }

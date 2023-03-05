@@ -11,6 +11,10 @@
 #include "vtkContextScene.h"
 #include "vtkObjectFactory.h"
 #include "vtkRegressionTestImage.h"
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 class GraphAnimate : public vtkCommand
 {
@@ -24,12 +28,11 @@ public:
 
     virtual void Execute(vtkObject *, unsigned long, void *)
     {
-        this->GraphItem->UpdateLayer();
+        this->GraphItem->UpdateLayout();
         this->View->Render();
         this->View->GetRenderWindow()->GetInteractor()->CreateOneShotTimer(10);
     }
-
-private:
+    
     vtkGraphItem *GraphItem;
     vtkContextView *View;
 };
@@ -54,7 +57,7 @@ int main(int, char *[])
     anim->View = view;
     anim->GraphItem = item;
     view->GetRenderWindow()->GetInteractor()->Initialize();
-    view->GetRenderWindow()->GetInteractor()->CreateOneShotTimer();
+    view->GetRenderWindow()->GetInteractor()->CreateOneShotTimer(10);
     view->GetRenderWindow()->GetInteractor()->AddObserver(vtkCommand::TimerEvent,anim);
     view->GetRenderWindow()->GetInteractor()->Start();
 }
