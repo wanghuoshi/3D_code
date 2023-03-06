@@ -18,49 +18,49 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 int main()
 {
     int i;
-    static float x[8][3] = {{0,0,0},{1,0,0},{1,1,0},{0,1,0},
-                            {0,0,1},{1,0,1},{1,1,1},{0,1,1}};    //å…«ä¸ªé¡¶ç‚¹
-    static vtkIdType pts[6][4] = {{0,1,2,3},{4,5,6,7},{0,1,5,4},
-                                  {1,2,6,5},{2,3,7,6},{3,0,4,7}};    //ç”¨ä¸Šé¢å…«ä¸ªé¡¶ç‚¹çš„æ ‡å·æ„å»ºå…­é¢
+    static float x[8][3] = { {0,0,0},{1,0,0},{1,1,0},{0,1,0},
+                            {0,0,1},{1,0,1},{1,1,1},{0,1,1} };    //°Ë¸ö¶¥µã
+    static vtkIdType pts[6][4] = { {0,1,2,3},{4,5,6,7},{0,1,5,4},
+                                  {1,2,6,5},{2,3,7,6},{3,0,4,7} };    //ÓÃÉÏÃæ°Ë¸ö¶¥µãµÄ±êºÅ¹¹½¨ÁùÃæ
 
-    //å®šä¹‰æ„æˆç«‹æ–¹ä½“çš„â€œç§¯æœ¨â€                    
+    //¶¨Òå¹¹³ÉÁ¢·½ÌåµÄ¡°»ıÄ¾¡±                    
     vtkSmartPointer<vtkPolyData> cube = vtkSmartPointer<vtkPolyData>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkCellArray> polys = vtkSmartPointer<vtkCellArray>::New();
     vtkSmartPointer<vtkFloatArray> scalars = vtkSmartPointer<vtkFloatArray>::New();
-    for(i=0;i<8;i++) points->InsertPoint(i,x[i]);        //ç«‹æ–¹ä½“çš„å…«ä¸ªç‚¹
-    for(i=0;i<6;i++) polys->InsertNextCell(4,pts[i]);    //ç«‹æ–¹ä½“çš„å…­ä¸ªé¢
-    for(i=0;i<8;i++) scalars->InsertTuple1(i,i);         //å®šä¹‰è¯¥å¤šè¾¹å½¢çš„æ ‡é‡
+    for (i = 0; i < 8; i++) points->InsertPoint(i, x[i]);        //Á¢·½ÌåµÄ°Ë¸öµã
+    for (i = 0; i < 6; i++) polys->InsertNextCell(4, pts[i]);    //Á¢·½ÌåµÄÁù¸öÃæ
+    for (i = 0; i < 8; i++) scalars->InsertTuple1(i, i);         //¶¨Òå¸Ã¶à±ßĞÎµÄ±êÁ¿
 
-    //ç»„å»ºç§¯æœ¨
+    //×é½¨»ıÄ¾
     cube->SetPoints(points);
     cube->SetPolys(polys);
     cube->GetPointData()->SetScalars(scalars);
 
     vtkSmartPointer<vtkPolyDataMapper> cubeMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     cubeMapper->SetInputData(cube);
-    cubeMapper->SetScalarRange(0,7);    //æŒ‡å®šæ ‡é‡çš„èŒƒå›´
-    
+    cubeMapper->SetScalarRange(0, 7);    //Ö¸¶¨±êÁ¿µÄ·¶Î§
+
     vtkSmartPointer<vtkActor> cubeActor = vtkSmartPointer<vtkActor>::New();
     cubeActor->SetMapper(cubeMapper);
 
-    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();    //æŒ‡å®šç…§ç›¸æœº
-    camera->SetPosition(1,1,1);
-    camera->SetFocalPoint(0,0,0);
+    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();    //Ö¸¶¨ÕÕÏà»ú
+    camera->SetPosition(1, 1, 1);
+    camera->SetFocalPoint(0, 0, 0);
 
-    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();    //æ¸²æŸ“
+    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();    //äÖÈ¾
     renderer->AddActor(cubeActor);
     renderer->SetActiveCamera(camera);
     renderer->ResetCamera();
-    renderer->SetBackground(1,1,1);
+    renderer->SetBackground(1, 1, 1);
 
-    vtkSmartPointer<vtkRenderWindow> renWin = vtkSmartPointer<vtkRenderWindow>::New();    //æŒ‡å®šæ¸²æŸ“çª—å£
+    vtkSmartPointer<vtkRenderWindow> renWin = vtkSmartPointer<vtkRenderWindow>::New();    //Ö¸¶¨äÖÈ¾´°¿Ú
     renWin->AddRenderer(renderer);
-    renWin->SetSize(300,300);
+    renWin->SetSize(300, 300);
 
-    vtkSmartPointer<vtkRenderWindowInteractor> iren = vtkSmartPointer<vtkRenderWindowInteractor>::New();    //è®¾ç½®äº¤äº’çª—å£
+    vtkSmartPointer<vtkRenderWindowInteractor> iren = vtkSmartPointer<vtkRenderWindowInteractor>::New();    //ÉèÖÃ½»»¥´°¿Ú
     iren->SetRenderWindow(renWin);
-    iren->Initialize();    //å¯åŠ¨äº¤äº’
+    iren->Initialize();    //Æô¶¯½»»¥
     iren->Start();
 
     return 0;

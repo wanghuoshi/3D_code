@@ -8,12 +8,16 @@
 #include "vtkActor.h"
 #include "vtkProperty.h"
 #include "vtkCamera.h"
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int main()
 {
     int i;
 
-    //ä¸‰ä¸ªæ•°ç»„æŒ‡å®šäº†ç½‘æ ¼åœ¨ä¸‰ä¸ªåæ ‡è½´çš„ç¨€ç–ç¨‹åº¦ï¼ˆé—´éš”ï¼‰
+    //Èı¸öÊı×éÖ¸¶¨ÁËÍø¸ñÔÚÈı¸ö×ø±êÖáµÄÏ¡Êè³Ì¶È£¨¼ä¸ô£©
     static float x[47] = {
         -1.22396, -1.17188, -1.11979, -1.06771, -1.01562, -0.963542,
         -0.911458, -0.859375, -0.807282, -0.755208, -0.703125, -0.651042,
@@ -43,28 +47,28 @@ int main()
         3.8, 3.9
     };
 
-    //å®šä¹‰ä¸‰ä¸ªæ•°ç»„ä½œä¸ºXã€Yã€Zè½´åæ ‡ç³»
+    //¶¨ÒåÈı¸öÊı×é×÷ÎªX¡¢Y¡¢ZÖá×ø±êÏµ
     vtkSmartPointer<vtkFloatArray> xCoords = vtkSmartPointer<vtkFloatArray>::New();
-    for(i=0;i<47;i++) xCoords->InsertNextValue(x[i]);
+    for (i = 0; i < 47; i++) xCoords->InsertNextValue(x[i]);
 
     vtkSmartPointer<vtkFloatArray> yCoords = vtkSmartPointer<vtkFloatArray>::New();
-    for(i=0;i<33;i++) yCoords->InsertNextValue(y[i]);
+    for (i = 0; i < 33; i++) yCoords->InsertNextValue(y[i]);
 
     vtkSmartPointer<vtkFloatArray> zCoords = vtkSmartPointer<vtkFloatArray>::New();
-    for(i=0;i<44;i++) zCoords->InsertNextValue(z[i]);
+    for (i = 0; i < 44; i++) zCoords->InsertNextValue(z[i]);
 
-    //åˆ›å»ºä¸€ä¸ªåŸºäºçŸ©å½¢ç»“æ„çš„å‡ ä½•å¯¹è±¡ï¼Œè¯¥ç»“æ„åœ¨Xã€Yã€Zè½´æ–¹å‘ä¸Šå˜åŒ–çš„é—´éš”éµå¾ªæ‹“æ‰‘è§„åˆ™ï¼ˆç­‰è·ï¼‰
+    //´´½¨Ò»¸ö»ùÓÚ¾ØĞÎ½á¹¹µÄ¼¸ºÎ¶ÔÏó£¬¸Ã½á¹¹ÔÚX¡¢Y¡¢ZÖá·½ÏòÉÏ±ä»¯µÄ¼ä¸ô×ñÑ­ÍØÆË¹æÔò£¨µÈ¾à£©
     vtkSmartPointer<vtkRectilinearGrid> rgrid = vtkSmartPointer<vtkRectilinearGrid>::New();
-    rgrid->SetDimensions(47,33,44);
+    rgrid->SetDimensions(47, 33, 44);
     rgrid->SetXCoordinates(xCoords);
     rgrid->SetYCoordinates(yCoords);
     rgrid->SetZCoordinates(zCoords);
 
-    //ä»çŸ©å½¢ç½‘æ ¼ä¸­æå–ä¸€ä¸ªé¢ï¼Œä½œä¸ºæ˜¾ç¤ºå’Œåˆ†æçš„å¯¹è±¡
-    vtkSmartPointer<vtkRectilinearGridGeometryFilter> plane = 
+    //´Ó¾ØĞÎÍø¸ñÖĞÌáÈ¡Ò»¸öÃæ£¬×÷ÎªÏÔÊ¾ºÍ·ÖÎöµÄ¶ÔÏó
+    vtkSmartPointer<vtkRectilinearGridGeometryFilter> plane =
         vtkSmartPointer<vtkRectilinearGridGeometryFilter>::New();
     plane->SetInputData(rgrid);
-    plane->SetExtent(0, 46, 16, 16, 0, 43);    //è®¾ç½®æå–èŒƒå›´
+    plane->SetExtent(0, 46, 16, 16, 0, 43);    //ÉèÖÃÌáÈ¡·¶Î§
 
     vtkSmartPointer<vtkPolyDataMapper> rgridMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     rgridMapper->SetInputConnection(plane->GetOutputPort());
@@ -72,19 +76,19 @@ int main()
     vtkSmartPointer<vtkActor> wireActor = vtkSmartPointer<vtkActor>::New();
     wireActor->SetMapper(rgridMapper);
     wireActor->GetProperty()->SetRepresentationToWireframe();
-    wireActor->GetProperty()->SetColor(0,1,0);    //è®¾ç½®ç½‘æ ¼é¢œè‰²
+    wireActor->GetProperty()->SetColor(0, 1, 0);    //ÉèÖÃÍø¸ñÑÕÉ«
 
     vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
     renderer->AddActor(wireActor);
-    renderer->SetBackground(0,0,0);    //è®¾ç½®èƒŒæ™¯è‰²
+    renderer->SetBackground(0, 0, 0);    //ÉèÖÃ±³¾°É«
     renderer->ResetCamera();
-    renderer->GetActiveCamera()->Elevation(60,0);
-    renderer->GetActiveCamera()->Azimuth(30,0);
+    renderer->GetActiveCamera()->Elevation(60.0);
+    renderer->GetActiveCamera()->Azimuth(30.0);
     renderer->GetActiveCamera()->Zoom(1.0);
 
     vtkSmartPointer<vtkRenderWindow> renWin = vtkSmartPointer<vtkRenderWindow>::New();
     renWin->AddRenderer(renderer);
-    renWin->SetSize(300,300);
+    renWin->SetSize(300, 300);
 
     vtkSmartPointer<vtkRenderWindowInteractor> iren = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     iren->SetRenderWindow(renWin);

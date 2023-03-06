@@ -14,41 +14,42 @@
 #include "vtkAutoInit.h" 
 
 VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkRenderingContextOpenGL2)
 VTK_MODULE_INIT(vtkInteractionStyle);
 
 class GraphAnimate : public vtkCommand
 {
 public:
-    static GraphAnimate *New()
+    static GraphAnimate* New()
     {
         return new GraphAnimate();
     }
 
     vtkTypeMacro(GraphAnimate, vtkCommand);
 
-    virtual void Execute(vtkObject *, unsigned long, void *)
+    virtual void Execute(vtkObject*, unsigned long, void*)
     {
         this->GraphItem->UpdateLayout();
         this->View->Render();
         this->View->GetRenderWindow()->GetInteractor()->CreateOneShotTimer(10);
     }
-    
-    vtkGraphItem *GraphItem;
-    vtkContextView *View;
+
+    vtkGraphItem* GraphItem;
+    vtkContextView* View;
 };
 
-int main(int, char *[])
+int main(int, char* [])
 {
     vtkSmartPointer<vtkContextView> view = vtkSmartPointer<vtkContextView>::New();
-    view->GetRenderer()->SetBackground(1.0,1.0,1.0);
-    view->GetRenderWindow()->SetSize(800,600);
-    
+    view->GetRenderer()->SetBackground(1.0, 1.0, 1.0);
+    view->GetRenderWindow()->SetSize(800, 600);
+
     vtkSmartPointer<vtkRandomGraphSource> source = vtkSmartPointer<vtkRandomGraphSource>::New();
     source->SetNumberOfVertices(100);
     source->SetNumberOfEdges(0);
     source->StartWithTreeOn();
     source->Update();
-    
+
     vtkSmartPointer<vtkGraphItem> item = vtkSmartPointer<vtkGraphItem>::New();
     item->SetGraph(source->GetOutput());
     view->GetScene()->AddItem(item);
@@ -58,6 +59,6 @@ int main(int, char *[])
     anim->GraphItem = item;
     view->GetRenderWindow()->GetInteractor()->Initialize();
     view->GetRenderWindow()->GetInteractor()->CreateOneShotTimer(10);
-    view->GetRenderWindow()->GetInteractor()->AddObserver(vtkCommand::TimerEvent,anim);
+    view->GetRenderWindow()->GetInteractor()->AddObserver(vtkCommand::TimerEvent, anim);
     view->GetRenderWindow()->GetInteractor()->Start();
 }

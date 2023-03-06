@@ -11,47 +11,51 @@
 #include "vtkRenderWindowInteractor.h"
 #include "vtkRenderer.h"
 #include "vtkStructuredGrid.h"
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int main()
 {
     int i, j, k, kOffset, jOffset, offset;
     float x[3], v[3], rMin = 0.5, rMax = 1.0, deltaRad, deltaZ;
     float radius, theta;
-    static int dims[3] = {13, 11, 11};
+    static int dims[3] = { 13, 11, 11 };
 
-    //åˆ›å»ºç»“æ„åŒ–ç½‘æ ¼
+    //´´½¨½á¹¹»¯Íø¸ñ
     vtkSmartPointer<vtkStructuredGrid> sgrid = vtkSmartPointer<vtkStructuredGrid>::New();
-    sgrid->SetDimensions(dims);    //æŒ‡å®šå…¶æ‹“æ‰‘ç»“æ„
+    sgrid->SetDimensions(dims);    //Ö¸¶¨ÆäÍØÆË½á¹¹
 
-    //åˆ›å»ºç‚¹å’Œå‘é‡å±æ€§å¯¹è±¡
+    //´´½¨µãºÍÏòÁ¿ÊôĞÔ¶ÔÏó
     vtkSmartPointer<vtkFloatArray> vectors = vtkSmartPointer<vtkFloatArray>::New();
     vectors->SetNumberOfComponents(3);
-    vectors->SetNumberOfTuples(dims[0] *dims[1]*dims[2]);
+    vectors->SetNumberOfTuples(dims[0] * dims[1] * dims[2]);
 
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-    points->Allocate(dims[0]*dims[1]*dims[2]);
+    points->Allocate(dims[0] * dims[1] * dims[2]);
 
     deltaZ = 2.0 / (dims[2] - 1);
     deltaRad = (rMax - rMin) / (dims[1] - 1);
     v[2] = 0.0;
-    for(k = 0; k < dims[2]; k++)
+    for (k = 0; k < dims[2]; k++)
     {
-        x[2] = -1.0 + k * deltaZ;    //é«˜åº¦
+        x[2] = -1.0 + k * deltaZ;    //¸ß¶È
         kOffset = k * dims[0] * dims[1];
-        for(j = 0; j < dims[1]; j++)
+        for (j = 0; j < dims[1]; j++)
         {
-            radius = rMin + j * deltaRad;    //å¾„å‘è·ç¦»
+            radius = rMin + j * deltaRad;    //¾¶Ïò¾àÀë
             jOffset = j * dims[0];
-            for(i=0;i<dims[0];i++)
+            for (i = 0; i < dims[0]; i++)
             {
-                theta = i * vtkMath::RadiansFromDegrees(15.0);    //æ–¹ä½è§’
+                theta = i * vtkMath::RadiansFromDegrees(15.0);    //·½Î»½Ç
                 x[0] = radius * cos(theta);
                 x[1] = radius * sin(theta);
                 v[0] = -x[1];
                 v[1] = x[0];
-                offset = i + jOffset + kOffset;    //ç‚¹Id
-                points->InsertPoint(offset, x);    //æ’å…¥ç‚¹åæ ‡
-                vectors->InsertTuple(offset, v);   //æ’å…¥å‘é‡å±æ€§æ•°æ®
+                offset = i + jOffset + kOffset;    //µãId
+                points->InsertPoint(offset, x);    //²åÈëµã×ø±ê
+                vectors->InsertTuple(offset, v);   //²åÈëÏòÁ¿ÊôĞÔÊı¾İ
             }
         }
     }
@@ -59,10 +63,35 @@ int main()
     sgrid->SetPoints(points);
     sgrid->GetPointData()->SetVectors(vectors);
 
-    //åœ¨å„ä¸ªç‚¹ä¸Šç”»ä¸€ä¸ªé•¿åº¦æ­£æ¯”äºåŠå¾„çš„åœ†æŸ±åˆ‡çº¿
+    //ÔÚ¸÷¸öµãÉÏ»­Ò»¸ö³¤¶ÈÕı±ÈÓÚ°ë¾¶µÄÔ²ÖùÇĞÏß
     vtkSmartPointer<vtkHedgeHog> hedgehog = vtkSmartPointer<vtkHedgeHog>::New();
     hedgehog->SetInputData(sgrid);
-    hedgehog->SetScaleFactor(0,1);    //è®¾ç½®æ¯”ä¾‹ç³»æ•°ï¼Œæ§åˆ¶çº¿æ®µé•¿åº¦
+    hedgehog->SetScaleFactor(0.1);    //ÉèÖÃ±ÈÀıÏµÊı£¬¿ØÖÆÏß¶Î³¤¶È
 
-    
+    vtkSmartPointer<vtkPolyDataMapper> sgridMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    sgridMapper->SetInputConnection(hedgehog->GetOutputPort());
+
+    vtkSmartPointer<vtkActor> sgridActor = vtkSmartPointer<vtkActor>::New();
+    sgridActor->SetMapper(sgridMapper);
+    sgridActor->GetProperty()->SetColor(0, 0, 0);
+
+    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
+    renderer->AddActor(sgridActor);
+    renderer->SetBackground(1, 1, 1);
+    renderer->ResetCamera();
+    renderer->GetActiveCamera()->Elevation(60.0);
+    renderer->GetActiveCamera()->Azimuth(30.0);
+    renderer->GetActiveCamera()->Zoom(1.25);
+
+    vtkSmartPointer<vtkRenderWindow> renWin = vtkSmartPointer<vtkRenderWindow>::New();
+    renWin->AddRenderer(renderer);
+    renWin->SetSize(300, 300);
+
+    vtkSmartPointer<vtkRenderWindowInteractor> iren = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    iren->SetRenderWindow(renWin);
+
+    iren->Initialize();
+    iren->Start();
+
+    return 0;
 }

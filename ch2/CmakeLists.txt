@@ -16,6 +16,12 @@ TARGET_LINK_LIBRARIES(2.3_GraphItem ${VTK_LIBRARIES})
 ADD_EXECUTABLE(2.4_Cube 2.4_Cube.cpp)
 TARGET_LINK_LIBRARIES(2.4_Cube ${VTK_LIBRARIES})
 
+ADD_EXECUTABLE(2.5_RectilinearGrid 2.5_RectilinearGrid.cpp)
+TARGET_LINK_LIBRARIES(2.5_RectilinearGrid ${VTK_LIBRARIES})
+
+ADD_EXECUTABLE(2.6_StructuredGrid 2.6_StructuredGrid.cpp)
+TARGET_LINK_LIBRARIES(2.6_StructuredGrid ${VTK_LIBRARIES})
+
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Construct a list of paths containing runtime directories for project applications on Windows.
 # Create two batch files which correctly set up the environment for the application and for Visual Studio.
