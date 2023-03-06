@@ -30,7 +30,7 @@ int main()
     vtkSmartPointer<vtkFloatArray> scalars = vtkSmartPointer<vtkFloatArray>::New();
     for(i=0;i<8;i++) points->InsertPoint(i,x[i]);        //立方体的八个点
     for(i=0;i<6;i++) polys->InsertNextCell(4,pts[i]);    //立方体的六个面
-    for(i=0;i<8;i++) scalars->InsertTuple1(i,i);          //定义该多边形的标量
+    for(i=0;i<8;i++) scalars->InsertTuple1(i,i);         //定义该多边形的标量
 
     //组建积木
     cube->SetPoints(points);
@@ -39,12 +39,12 @@ int main()
 
     vtkSmartPointer<vtkPolyDataMapper> cubeMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     cubeMapper->SetInputData(cube);
-    cubeMapper->SetScalarRange(0,7);                                                //指定标量的范围
+    cubeMapper->SetScalarRange(0,7);    //指定标量的范围
     
     vtkSmartPointer<vtkActor> cubeActor = vtkSmartPointer<vtkActor>::New();
     cubeActor->SetMapper(cubeMapper);
 
-    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();          //指定照相机
+    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();    //指定照相机
     camera->SetPosition(1,1,1);
     camera->SetFocalPoint(0,0,0);
 
