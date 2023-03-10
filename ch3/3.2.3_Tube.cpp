@@ -17,6 +17,7 @@
 #include <vtkClipPolyData.h>
 #include <vtkContourFilter.h>
 #include <vtkDoubleArray.h>
+#include <vtkTubeFilter.h>
 
 #include <vtkMath.h>
 
@@ -61,5 +62,40 @@ int main()
     }
 
     //设置色彩从蓝色到红色变化的管变
+    vtkNew<vtkPolyData> polyData;
+    polyData->SetPoints(points);
+    polyData->SetLines(lines);
+    polyData->GetPointData()->AddArray(tubeRadius);
+    polyData->GetPointData()->SetActiveScalars("TubeRadius");
+
+    //设置色彩从蓝色到红色变化的管变
+    vtkNew<vtkUnsignedCharArray> colors;
+    colors->SetName("Colors");
+    colors->SetNumberOfComponents(3);
+    colors->SetNumberOfTuples(nV);
+    for(i = 0; i < nV; i++)
+    {
+        colors->InsertTuple3(i,
+                             int(255*i/(nV-1)),
+                             0,
+                             int(255*(nV-1-i)/(nV-1)));
+    }
+
+    //通过vtkUnsignedCharArray重设点的属性
+    polyData->GetPointData()->AddArray(colors);
+
+    vtkNew<vtkTubeFilter> tube;
+    tube->SetInputData(polyData);
+    tube->SetNumberOfSides(nTv);
+    tube->SetVaryRadiusToVaryRadiusByAbsoluteScalar();    //采用标量设置管的变化半径
+
+    vtkNew<vtkPolyDataMapper> mapper;
+    mapper->SetInputConnection(tube->GetOutputPort());
+    mapper->ScalarVisibilityOn();
+    mapper->SetScalarModeToUsePointFieldData();
+    mapper->SelectColorArray("Colors");
+
+    vtkNew<vtkActor> actor;
+    
 }
 
