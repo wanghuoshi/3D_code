@@ -1,29 +1,19 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(Ch02)
+PROJECT(Ch03)
 
 FIND_PACKAGE(VTK REQUIRED)
 INCLUDE_DIRECTORIES(${VTK_USE_FILE})
 
-ADD_EXECUTABLE(2.1_Cylinder 2.1_Cylinder.cpp)
-TARGET_LINK_LIBRARIES(2.1_Cylinder ${VTK_LIBRARIES})
+ADD_EXECUTABLE(3.2.1_BandedBorder 3.2.1_BandedBorder.cpp)
+TARGET_LINK_LIBRARIES(3.2.1_BandedBorder ${VTK_LIBRARIES})
 
-ADD_EXECUTABLE(2.2_Array 2.2_Array.cpp)
-TARGET_LINK_LIBRARIES(2.2_Array ${VTK_LIBRARIES})
+ADD_EXECUTABLE(3.2.2_FilledContours 3.2.2_FilledContours.cpp)
+TARGET_LINK_LIBRARIES(3.2.2_FilledContours ${VTK_LIBRARIES})
 
-ADD_EXECUTABLE(2.3_GraphItem 2.3_GraphItem.cpp)
-TARGET_LINK_LIBRARIES(2.3_GraphItem ${VTK_LIBRARIES})
+ADD_EXECUTABLE(3.2.3_Tube 3.2.3_Tube.cpp)
+TARGET_LINK_LIBRARIES(3.2.3_Tube ${VTK_LIBRARIES})
 
-ADD_EXECUTABLE(2.4_Cube 2.4_Cube.cpp)
-TARGET_LINK_LIBRARIES(2.4_Cube ${VTK_LIBRARIES})
 
-ADD_EXECUTABLE(2.5_RectilinearGrid 2.5_RectilinearGrid.cpp)
-TARGET_LINK_LIBRARIES(2.5_RectilinearGrid ${VTK_LIBRARIES})
-
-ADD_EXECUTABLE(2.6_StructuredGrid 2.6_StructuredGrid.cpp)
-TARGET_LINK_LIBRARIES(2.6_StructuredGrid ${VTK_LIBRARIES})
-
-ADD_EXECUTABLE(2.7_LabeledGrid 2.7_LabeledGrid.cpp)
-TARGET_LINK_LIBRARIES(2.7_LabeledGrid ${VTK_LIBRARIES})
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Construct a list of paths containing runtime directories for project applications on Windows.

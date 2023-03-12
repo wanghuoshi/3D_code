@@ -17,6 +17,10 @@
 #include <vtkClipPolyData.h>
 #include <vtkContourFilter.h>
 #include <vector>
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int main()
 {
@@ -24,7 +28,7 @@ int main()
 
     //读取文件并获得该文件的标量范围
     vtkNew<vtkXMLPolyDataReader> reader;
-    reader->SetFileName("D:/VTK/VTK-9.2.2-src/Testing/Data/filledContours.vtp");
+    reader->SetFileName("D:/VTK/VTK-9.2.2-data/Testing/Data/filledContours.vtp");
     reader->Update();    //立即分配内存，以便获取标量范围
     reader->GetOutput()->GetPointData()->GetScalars()->GetRange(scalarRange);
 

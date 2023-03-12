@@ -18,8 +18,15 @@
 #include <vtkContourFilter.h>
 #include <vtkDoubleArray.h>
 #include <vtkTubeFilter.h>
+#include <vtkCamera.h>
+#include <vtkInteractorStyleTrackballCamera.h>
 
 #include <vtkMath.h>
+
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int main()
 {
@@ -96,6 +103,28 @@ int main()
     mapper->SelectColorArray("Colors");
 
     vtkNew<vtkActor> actor;
+    actor->SetMapper(mapper);
     
+    vtkNew<vtkRenderer> renderer;
+    renderer->AddActor(actor);
+    renderer->SetBackground(.2,.3,.4);
+    //从倾斜的视角查看
+    renderer->GetActiveCamera()->Azimuth(30);
+    renderer->GetActiveCamera()->Elevation(30);
+    renderer->ResetCamera();
+
+    vtkNew<vtkRenderWindow> renWin;
+    vtkNew<vtkRenderWindowInteractor> iren;
+    iren->SetRenderWindow(renWin);
+    renWin->AddRenderer(renderer);
+    renWin->SetSize(500,500);
+    renWin->Render();
+
+    //允许用户手动操作摄像机及视口
+    vtkNew<vtkInteractorStyleTrackballCamera> style;
+    iren->SetInteractorStyle(style);
+    iren->Start();
+
+    return EXIT_SUCCESS;
 }
 

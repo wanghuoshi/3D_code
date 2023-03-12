@@ -16,6 +16,10 @@
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkTextProperty.h"
+#include "vtkAutoInit.h" 
+
+VTK_MODULE_INIT(vtkRenderingOpenGL2);
+VTK_MODULE_INIT(vtkInteractionStyle);
 
 int xLength, yLength;
 vtkSmartPointer<vtkSelectVisiblePoints> visPts, visCells;
@@ -56,7 +60,7 @@ int main()
 {
     //创建显示区域的矩形窗口
     int xmin = 200;
-    xLength = 100；
+    xLength = 100;
     int xmax = xmin + xLength;
     int ymin = 200;
     yLength = 100;
@@ -90,7 +94,7 @@ int main()
     vtkSmartPointer<vtkSphereSource> sphere = vtkSmartPointer<vtkSphereSource>::New();
     vtkSmartPointer<vtkPolyDataMapper> sphereMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     sphereMapper->SetInputConnection(sphere->GetOutputPort());
-    sphereMapper->GlobalImmediateModelRenderingOn();
+    //sphereMapper->GlobalImmediateModelRenderingOn();
 
     vtkSmartPointer<vtkActor> sphereActor = vtkSmartPointer<vtkActor>::New();
     sphereActor->SetMapper(sphereMapper);
