@@ -35,5 +35,50 @@ void main()
     skinExtractor->SetValue(0,500);
 
     //在等值面上产生法向量
+    vtkNew<vtkPolyDataNormals> skinNormals;
+    skinNormals->SetInputConnection(skinExtractor->GetOutputPort());
+    skinNormals->SetFeatureAngle(60.0);
 
+    vtkNew<vtkPolyDataMapper> skinMapper;
+    skinMapper->SetInputConnection(skinNormals->GetOutputPort());
+    skinMapper->ScalarVisibilityOff();
+
+    vtkNew<vtkActor> skin;
+    skin->SetMapper(skinMapper);
+
+    //为上述内容提供一个外围边框
+    vtkNew<vtkOutlineFilter> outlineData;
+    outlineData->SetInputConnection(v16->GetOutputPort());
+
+    vtkNew<vtkPolyDataMapper> mapOutline;
+    mapOutline->SetInputConnection(outlineData->GetOutputPort());
+
+    vtkNew<vtkActor> outline;
+    outline->SetMapper(mapOutline);
+    outline->GetProperty()->SetColor(0,0,0);
+
+    //创建一个照相机，设置其视角、焦点和位置等
+    vtkNew<vtkCamera> aCamera;
+    aCamera->SetViewUp(0,0,-1);
+    aCamera->SetPosition(0,1,0);
+    aCamera->SetFocalPoint(0,0,0);
+    aCamera->ComputeViewPlaneNormal();
+    //设置摄像头旋转穿过物体时的角度
+    aCamera->Azimuth(30.0);
+    aCamera->Elevation(30.0);
+
+    aRenderer->AddActor(outline);
+    aRenderer->AddActor(skin);
+    aRenderer->SetActiveCamera(aCamera);
+    aRenderer->ResetCamera();
+    aCamera->Dolly(1.5);    //将相机靠近焦点，以放大图像
+    aRenderer->SetBackground(.2,.3,.4);
+    renWin->SetSize(320,240);
+
+    aRenderer->ResetCameraClippingRange();
+
+    vtkNew<vtkInteractorStyleTrackballCamera> style;
+    iren->SetInteractorStyle(style);
+    iren->Initialize();
+    iren->Start();
 }
