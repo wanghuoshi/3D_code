@@ -13,6 +13,14 @@ TARGET_LINK_LIBRARIES(3.2.2_FilledContours ${VTK_LIBRARIES})
 ADD_EXECUTABLE(3.2.3_Tube 3.2.3_Tube.cpp)
 TARGET_LINK_LIBRARIES(3.2.3_Tube ${VTK_LIBRARIES})
 
+ADD_EXECUTABLE(3.3.1_Skin 3.3.1_Skin.cpp)
+TARGET_LINK_LIBRARIES(3.3.1_Skin ${VTK_LIBRARIES})
+
+ADD_EXECUTABLE(3.3.2_Bone 3.3.2_Bone.cpp)
+TARGET_LINK_LIBRARIES(3.3.2_Bone ${VTK_LIBRARIES})
+
+ADD_EXECUTABLE(3.3.3_ThreeOrthPlane 3.3.3_ThreeOrthPlane.cpp)
+TARGET_LINK_LIBRARIES(3.3.3_ThreeOrthPlane ${VTK_LIBRARIES})
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------
