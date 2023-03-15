@@ -22,6 +22,8 @@ TARGET_LINK_LIBRARIES(3.3.2_Bone ${VTK_LIBRARIES})
 ADD_EXECUTABLE(3.3.3_ThreeOrthPlane 3.3.3_ThreeOrthPlane.cpp)
 TARGET_LINK_LIBRARIES(3.3.3_ThreeOrthPlane ${VTK_LIBRARIES})
 
+ADD_EXECUTABLE(3.4.1_Head 3.4.1_Head.cpp)
+TARGET_LINK_LIBRARIES(3.4.1_Head ${VTK_LIBRARIES})
 
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Construct a list of paths containing runtime directories for project applications on Windows.
