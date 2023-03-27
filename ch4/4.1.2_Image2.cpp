@@ -1,6 +1,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageToVTKImageFilter.h"
+#include "itkPNGImageIOFactory.h"
 
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
@@ -12,16 +13,19 @@
 VTK_MODULE_INIT(vtkRenderingOpenGL2);
 VTK_MODULE_INIT(vtkInteractionStyle);
 VTK_MODULE_INIT(vtkRenderingFreeType);
-VTK_MODULE_INIT(vtkRenderingVolumeOpenGL2)
 
-int main(int, char *argv[])
+int main()
 {
     // 定义像素的类型和图像的维数
     using PixelType = unsigned char;
     constexpr unsigned int Dimension = 3;
 
+    itk::ObjectFactoryBase::RegisterFactory(itk::PNGImageIOFactory::New());
+    
     // 定义图像变量
     using ImageType = itk::Image<PixelType, Dimension>;
+
+    
 
     // 定义图像读取器及其指针
     using ReaderType = itk::ImageFileReader<ImageType>;
@@ -32,7 +36,14 @@ int main(int, char *argv[])
     reader->SetFileName(filename);
     
     // 立即更新
-    reader->Update();
+    try {
+        reader->Update();
+    }
+    catch (std::exception& ex) {
+        std::cerr << ex.what() << std::endl;
+    }
+
+    
    
     // 将图像指针指向读入的图像
     ImageType::Pointer image = reader->GetOutput();
@@ -59,14 +70,6 @@ int main(int, char *argv[])
     viewer->Render();
     iren->Initialize();
     iren->Start();
-
-    reader->Delete();
-    connector->Delete();
-    actor->Delete();
-    ren->Delete();
-    renWin->Delete();
-    viewer->Delete();
-    iren->Delete();
 
     return EXIT_SUCCESS;
 }

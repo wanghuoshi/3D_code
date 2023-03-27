@@ -4,8 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:/ITK/ITK-release/include/ITK-5.2/**",
-                "D:/VTK/VTK-8.2.0-install-release/include/vtk-8.2/**"
+                "D:/ITK/itk-5.2.1-install-debug/include/**", //D:/ITK/ITK-release/include/ITK-5.2/**",
+                "D:/VTK/VTK-9.2.2-install-debug/include/vtk-9.2/**" //"D:/VTK/VTK-8.2.0-install-release/include/vtk-8.2/**"
             ],
             "defines": [
                 "_DEBUG",
