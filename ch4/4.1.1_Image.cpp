@@ -1,3 +1,5 @@
+// åˆ›å»ºä¸€å¹…å›¾åƒ
+
 #include "itkImage.h"
 #include "itkImageToVTKImageFilter.h"
 
@@ -14,36 +16,37 @@ VTK_MODULE_INIT(vtkRenderingFreeType);
 
 int main()
 {
-    // ´´½¨Ò»·ù»ùÓÚunsigned shortÏñËØµÄ3DÍ¼ÏñÀàĞÍ 
+    // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½unsigned shortï¿½ï¿½ï¿½Øµï¿½3DÍ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
     using ImageType = itk::Image<unsigned short, 3>;
-    // ¶¨ÒåÍ¼ÏñÀàĞÍµÄÖ¸Õë
+    // ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½Ö¸ï¿½ï¿½
     ImageType::Pointer image = ImageType::New();
 
-    // ¶¨ÒåÍ¼ÏñÀàĞÍµÄË÷Òı
+    // ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½
     ImageType::IndexType start;
-    start[0] = 0; // ÔÚ£ØÖá·½ÏòµÄË÷Òı
-    start[1] = 0; // ÔÚ£ÙÖá·½ÏòµÄË÷Òı
-    start[2] = 0; // ÔÚ£ÚÖá·½ÏòµÄË÷Òı
+    start[0] = 0; // ï¿½Ú£ï¿½ï¿½á·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    start[1] = 0; // ï¿½Ú£ï¿½ï¿½á·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    start[2] = 0; // ï¿½Ú£ï¿½ï¿½á·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    // ¶¨ÒåÍ¼ÏñµÄ³ß´ç
+    // ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ä³ß´ï¿½
     ImageType::SizeType size;
     size[0] = 200; // size along X
     size[1] = 200; // size along Y
     size[2] = 200; // size along Z
 
-    // ¶¨ÒåÍ¼ÏñÇøÓò±äÁ¿¡¢²¢³õÊ¼»¯¸ÃÇøÓò
+    // ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     ImageType::RegionType region;
 
     region.SetSize(size);
     region.SetIndex(start);
     
-    // ³õÊ¼»¯Í¼Ïñ
+    // ï¿½ï¿½Ê¼ï¿½ï¿½Í¼ï¿½ï¿½
     image->SetRegions(region);
-    image->Allocate();    // ¸øÍ¼Ïñ·ÖÅäÄÚ´æ
+    image->Allocate();    // ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
 
     using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
     ConnectorType::Pointer connector = ConnectorType::New();
     connector->SetInput(image);
+    connector->Update();
 
     vtkImageActor* actor = vtkImageActor::New();
     vtkRenderer* ren = vtkRenderer::New();

@@ -1,9 +1,11 @@
+// 从文件中读取图像
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageToVTKImageFilter.h"
 #include "itkPNGImageIOFactory.h"
 
-#include "vtkImageViewer.h"
+#include "vtkImageViewer2.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkImageActor.h"
 #include "vtkRenderer.h"
@@ -25,8 +27,6 @@ int main()
     // 定义图像变量
     using ImageType = itk::Image<PixelType, Dimension>;
 
-    
-
     // 定义图像读取器及其指针
     using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
@@ -36,14 +36,7 @@ int main()
     reader->SetFileName(filename);
     
     // 立即更新
-    try {
-        reader->Update();
-    }
-    catch (std::exception& ex) {
-        std::cerr << ex.what() << std::endl;
-    }
-
-    
+    reader->Update();  
    
     // 将图像指针指向读入的图像
     ImageType::Pointer image = reader->GetOutput();
@@ -52,6 +45,7 @@ int main()
     using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
     ConnectorType::Pointer connector = ConnectorType::New();
     connector->SetInput(image);
+    connector->Update();
 
     vtkImageActor *actor = vtkImageActor::New();
     vtkRenderer *ren = vtkRenderer::New();
@@ -59,7 +53,7 @@ int main()
     vtkRenderWindow *renWin = vtkRenderWindow::New();
     renWin->AddRenderer(ren);
 
-    vtkImageViewer *viewer = vtkImageViewer::New();
+    vtkImageViewer2 *viewer = vtkImageViewer2::New();
     vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::New();
     iren->SetRenderWindow(renWin);
 
