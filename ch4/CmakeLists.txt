@@ -16,6 +16,12 @@ TARGET_LINK_LIBRARIES(4.1.2_Image2 ${ITK_LIBRARIES} ${VTK_LIBRARIES})
 ADD_EXECUTABLE(4.1.3_Image3 4.1.3_Image3.cpp)
 TARGET_LINK_LIBRARIES(4.1.3_Image3 ${ITK_LIBRARIES} ${VTK_LIBRARIES})
 
+ADD_EXECUTABLE(4.1.4_Image4 4.1.4_Image4.cpp)
+TARGET_LINK_LIBRARIES(4.1.4_Image4 ${ITK_LIBRARIES} ${VTK_LIBRARIES})
+
+ADD_EXECUTABLE(4.1.5_RGBImage 4.1.5_RGBImage.cpp)
+TARGET_LINK_LIBRARIES(4.1.5_RGBImage ${ITK_LIBRARIES} ${VTK_LIBRARIES})
+
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Construct a list of paths containing runtime directories for project applications on Windows.
 # Create two batch files which correctly set up the environment for the application and for Visual Studio.

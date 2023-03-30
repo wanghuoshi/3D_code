@@ -5,6 +5,7 @@
 #include "itkImageToVTKImageFilter.h"
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
+#include "itkPNGImageIOFactory.h"
 
 #include "vtkAutoInit.h"
 VTK_MODULE_INIT(vtkRenderingOpenGL2);
@@ -27,6 +28,8 @@ int main()
     using ConnectorType = itk::ImageToVTKImageFilter<InputImageType>;
 
     ReaderType::Pointer reader = ReaderType::New();    // 创建读取图像文件滤波器
+
+    itk::ObjectFactoryBase::RegisterFactory(itk::PNGImageIOFactory::New());
 
     reader->SetFileName("D:/ITK/ITK-data/Wrapping/images/BrainProtonDensitySlice.png");
 
