@@ -1,3 +1,5 @@
+// 面绘制-提取皮肤
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>

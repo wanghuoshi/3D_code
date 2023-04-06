@@ -25,6 +25,9 @@ TARGET_LINK_LIBRARIES(3.3.3_ThreeOrthPlane ${VTK_LIBRARIES})
 ADD_EXECUTABLE(3.4.1_Head 3.4.1_Head.cpp)
 TARGET_LINK_LIBRARIES(3.4.1_Head ${VTK_LIBRARIES})
 
+ADD_EXECUTABLE(3.4.2_Reslice 3.4.2_Reslice.cpp)
+TARGET_LINK_LIBRARIES(3.4.2_Reslice ${VTK_LIBRARIES})
+
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Construct a list of paths containing runtime directories for project applications on Windows.
 # Create two batch files which correctly set up the environment for the application and for Visual Studio.

@@ -1,3 +1,5 @@
+// 体绘制-从体数据中抽取一个切面
+
 #include "vtkImageMapToColors.h"
 #include "vtkImageMapper3D.h"
 #include "vtkImageReader2.h"

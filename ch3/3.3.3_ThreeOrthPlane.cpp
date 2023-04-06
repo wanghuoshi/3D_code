@@ -1,3 +1,5 @@
+// 面绘制-三正交面
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>

@@ -1,3 +1,5 @@
+// 面绘制-抽取皮肤和骨骼
+
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>

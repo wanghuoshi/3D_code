@@ -1,3 +1,5 @@
+// 体绘制-绘制一个人头
+
 #include <vtkSmartPointer.h>
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
